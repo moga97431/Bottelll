@@ -51,7 +51,7 @@ while True:
 			elif text =="video"and guid == guid_admin:
 				bot.send_text(guid,"آپــلود شــروع شــد😚 ")
 				dan = bot.download(info_link['link']['open_chat_data']['object_guid'],info_link['link']['open_chat_data']['message_id'],save=True)
-				bot.send_video(guid_ch,f'{name}')
+				bot.send_video(guid_ch,f'/Download{name}')
 				bot.send_text(guid,"بــا مــوفقیــت آپــلود شــد😚 ")
 				os.remove(name)
 				
