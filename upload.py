@@ -7,7 +7,7 @@ import datetime
 
 
 bot = Client(session="amir")
-guid_admin = "u0Fg3WR012d7d19fcaa4d595239ccb5e"
+guid_admin = "u0GGOhh0749d6075d5674b25e9559812"
 
 
 while True:
