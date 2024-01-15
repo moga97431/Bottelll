@@ -6,9 +6,9 @@ bot = telebot.TeleBot("6476334435:AAGREDmaK55EpFxCck53DDm0bqQglN44pJs")
 @bot.message_handler(commands=["start"])
 def starlt(message):
     btn1 = types.InlineKeyboardMarkup(row_width=1)
-    pro = types.InlineKeyboardButton(text ="حسابي",url = "https://t.me/B_xxBx")
+    pro = types.InlineKeyboardButton(text ="چنلمه اگه عشقت کشید دنبال کن",url = "https://t.me/freeconfingv2rayngm")
     btn1.add(pro)
-    bot.send_message(message.chat.id ,"اهلًا بك في بوت الزخرفة ارسل اسمك لكي اقوم بزخرفته",reply_markup=btn1)
+    bot.send_message(message.chat.id ,"سلام دلقک اسمتو به انگلیسی وارد کن برات قشنگش کنم",reply_markup=btn1)
 @bot.message_handler(func =lambda message :True)
 def ren(message):
     nn = message.text
@@ -42,5 +42,5 @@ def ren(message):
     for name in all:
         word = name.text
         bot.send_message(message.chat.id ,word)
-    bot.send_message(message.chat.id ,"انتهت الزخرفة")
+    bot.send_message(message.chat.id ,"تموم شد حالا بحی بده")
 bot.polling()
