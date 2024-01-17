@@ -4,7 +4,7 @@ import telebot
 
   bot = telebot.TeleBot("6406574208:AAFzkKOHtAsFauTmhG8tsJcMK4Y1cd-X3jA")
 
-m = get("https://raw.githubusercontent.com/Bardiafa/Free-V2ray-Config/main/All_Configs_Sub.txt").text
+m = get("https://raw.githubusercontent.com/yebekhe/TelegramV2rayCollector/main/sub/normal/vless").text
 
 for t in m.split():
     if t.startswith("vless:"):
