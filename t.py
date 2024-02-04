@@ -19,6 +19,6 @@ def dow(message):
 			respones=json.loads('{"ok":"true","Video":{"authorUser":"'+url['author']+'","authorName":"'+url['author_name']+'","authorImage":"'+url['author_a']+'","cover":"'+url['cover']+'","vidID":"'+url['vid']+'","desc":"'+url["desc"]+'","link":"'+url['links'][4]['a']+'","audioName":"'+url['links'][5]['s']+'","audioLink":"'+url['links'][5]['a']+'"}}') 
 		except:
 			bot.send_message(message.chat.id,'- عذراً عزيزي الرابط غير صالح !')
-		bot.send_video(message.chat.id,respones['Video']['link'],caption='- Done Download Video .')
+		bot.send_video("-1001903749072",respones['Video']['link'],caption='- Done Download Video .')
 if __name__=="__main__":
 	bot.infinity_polling()
