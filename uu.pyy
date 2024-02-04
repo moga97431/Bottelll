@@ -1,0 +1,25 @@
+import telebot
+import requests
+
+bot = telebot.TeleBot("6979355959:AAGnOiP-EOkfzNjx2nrQdlm9m43v5LOMdVk")
+
+@bot.message_handler(content_types=['text'])
+def handle_message(message):
+    if message.text.startswith('http') and message.content_type == 'video':
+        file_url = message.text
+        file_name = file_url.split('/')[-1]
+        
+        r = requests.get(file_url, stream=True)
+        with open(file_name, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=1024):
+                if chunk:
+                    f.write(chunk)
+        
+        with open(file_name, 'rb') as f:
+            bot.send_video(chat_id='-1001903749072', data=f)
+        
+        bot.reply_to(message, "File downloaded and uploaded successfully!")
+    else:
+        bot.reply_to(message, "Please send a video link.")
+
+bot.polling()
