@@ -2,10 +2,10 @@ import requests
 
 print('Beginning file download with requests')
 
-url = 'http://i3.ytimg.com/vi/J---aiyznGQ/mqdefault.jpg'
+url =input('')
 r = requests.get(url)
 
-with open('/Users/scott/Downloads/cat3.jpg', 'wb') as f:
+with open('video.mp3', 'wb') as f:
     f.write(r.content)
 
 # Retrieve HTTP meta-data
