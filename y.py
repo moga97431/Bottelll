@@ -48,7 +48,7 @@ def download_vid(message, resolution):
         bot.send_message(message.chat.id, f"Downloading .....")
         bot.send_message(message.chat.id, f"{video_title} downloaded successfully")
         with open(stream.default_filename, 'rb') as video:
-            bot.send_video(message.chat.id, -1001995255278, caption=f"Download completed: {video_title} in {resolution}")
+            bot.send_video("-1001995255278", video, caption=f"Download completed: {video_title} in {resolution}")
         os.remove(stream.default_filename)
     else:
         bot.send_message(message.chat.id, f"No video found in {resolution} resolution.")
