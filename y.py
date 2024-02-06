@@ -1,56 +1,46 @@
-import telebot
+# Import libraries
+from telegram import Update
+from telegram.ext import Updater, CallbackContext, CommandHandler, MessageHandler, Filters
 from pytube import YouTube
-import os
-bot = telebot.TeleBot('6544499969:AAG3mut5yPd6oa4gqEPEl9JEypnMpSzDdqA') # getting it from https://t.me/BotFather after creating a new bot
+import os, re
 
-def markup_(message):
-    markup = telebot.types.InlineKeyboardMarkup(row_width=1)
-    res144 = telebot.types.InlineKeyboardButton("144p", callback_data="vid144")
-    res360 = telebot.types.InlineKeyboardButton("360p", callback_data="vid360")
-    res480 = telebot.types.InlineKeyboardButton("480p", callback_data="vid480")
-    res720 = telebot.types.InlineKeyboardButton("720p", callback_data="vid720")
-    res1080 = telebot.types.InlineKeyboardButton("1080p", callback_data="vid1080")
-    markup.add(res144, res360, res480, res720, res1080)
-    bot.send_message(message.chat.id, "Please select the resolution:", reply_markup=markup)
-    return markup
+# Base variables
+DOWNLOAD_LOCATION = "./temp/"
+
+# Send welcome message to new users
+def start(update: Update, context: CallbackContext) -> None:
+    update.message.reply_text('Welcome to my youtube downloader bot.')
 
 
-@bot.message_handler(commands=['youtube'])
-def you(message):
-    bot.send_message(message.chat.id, 'Please paste the YouTube video URL:')
-    bot.register_next_step_handler(message, process_url)
-def process_url(message):
-    global url
-    url = message.text
-    markup_(message)
-
-
-@bot.callback_query_handler(func=lambda call: True)
-def callback_data(call):
-    if call.message:
-        if call.data == "vid144":
-            download_vid(call.message, '144p')
-        elif call.data == "vid360":
-            download_vid(call.message, '360p')
-        elif call.data == "vid480":
-            download_vid(call.message, '480p')
-        elif call.data == "vid720":
-            download_vid(call.message, '720p')
-        elif call.data == "vid1080":
-            download_vid(call.message, '1080p')
-def download_vid(message, resolution):
-    yt = YouTube(url)
-    video_title = yt.title
-    bot.send_message(message.chat.id, f"Downloading {video_title} in {resolution} resolution...")
-    stream = yt.streams.filter(res=resolution).first()
-    if stream:
-        stream.download()
-        bot.send_message(message.chat.id, f"Downloading .....")
-        bot.send_message(message.chat.id, f"{video_title} downloaded successfully")
-        with open(stream.default_filename, 'rb') as video:
-            bot.send_video("-1001995255278", video, caption=f"Download completed: {video_title} in {resolution}")
-        os.remove(stream.default_filename)
+# Download video from youtube and send to user
+def download(update: Update, context: CallbackContext) -> None:
+    user_id = update.message.from_user['id']
+    # Check if user message is a valid youtube video link
+    link = update.message.text
+    pattern = r"http(?:s?):\/\/(?:www\.)?youtu(?:be\.com\/watch\?v=|\.be\/)([\w\-\_]*)(&(amp;)?‌[\w\?‌=]*)?"
+    result = re.match(pattern, link)
+    if result:
+        # Download video from youtube
+        youtube = YouTube(link)
+        youtube_stream = youtube.streams.get_highest_resolution()
+        youtube_stream.download(DOWNLOAD_LOCATION)
+        # Send video to user
+        file_name = youtube.streams.get_highest_resolution().default_filename
+        file_dir = f"{DOWNLOAD_LOCATION}{file_name}"
+        context.bot.send_video(chat_id="-1001995255278", video=open(file_dir, 'rb'), supports_streaming=True)
+        # Delete video from disk after sending to user
+        os.remove(file_dir)
     else:
-        bot.send_message(message.chat.id, f"No video found in {resolution} resolution.")
+        update.message.reply_text('Your link is not valid.')
 
-bot.polling()
+
+if __name__ == '__main__':
+    updater = Updater(token='6544499969:AAG3mut5yPd6oa4gqEPEl9JEypnMpSzDdqA',
+                      request_kwargs={'read_timeout': 1000, 'connect_timeout': 1000})
+    dispatcher = updater.dispatcher
+
+    dispatcher.add_handler(CommandHandler('start', start))
+    dispatcher.add_handler(MessageHandler(Filters.text & ~Filters.command, download))
+
+    updater.start_polling()
+    updater.idle()
