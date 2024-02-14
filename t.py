@@ -21,7 +21,7 @@ def dow(message):
 		except:
 			bot.send_message(message.chat.id,'- عذراً عزيزي الرابط غير صالح !')
 		bot.send_video("-1001903749072",respones['Video']['link'],caption='- Done Download Video .')
-	keep_alive()
+	
 
 if __name__=="__main__":
 	bot.infinity_polling()
